@@ -89,3 +89,10 @@ node_modules/
 # Publish output
 wwwroot/dist/
 wwwroot/node_modules/
+
+# EF Core migrations
+Migrations/
+
+# database files
+*.db
+*.sqlite

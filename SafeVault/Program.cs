@@ -1,6 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add EF Core with SQLite
+builder.Services.AddDbContext<SafeVault.VaultContext>(options =>
+    options.UseSqlite("Data Source=safevault.db"));
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
