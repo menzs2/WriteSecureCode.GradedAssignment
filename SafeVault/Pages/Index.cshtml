@@ -4,7 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
-<form action="/submit" method="post">
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="post" >
     <label for="username">Username:</label>
     <input type="text" id="username" name="username">
     
