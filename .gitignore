@@ -22,6 +22,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+bin/
+obj/
 
 # .NET Core
 project.lock.json
@@ -52,3 +54,38 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# Rider
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# ASP.NET Core secrets
+secrets.json
+
+# Optional: Ignore local development settings if they contain secrets
+appsettings.Development.json
+
+# Logs
+*.log
+
+# npm packages (if using Node.js tooling)
+node_modules/
+
+# Publish output
+wwwroot/dist/
+wwwroot/node_modules/
