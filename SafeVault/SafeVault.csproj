@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlite" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.tools" Version="9.0.5">
@@ -14,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Net.Test.Sdk" Version="17.14.0" />
+    <PackageReference Include="microsoft.visualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
     <PackageReference Include="newtonSoft.Json" Version="13.0.3" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0">

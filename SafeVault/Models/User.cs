@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace SafeVault;
 
-public class User
+public class User : IdentityUser
 {
+    // Inherits from IdentityUser to use built-in identity features
     [Key]
     public int Id { get; set; } // Auto-incrementing primary key
 

@@ -1,12 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using SafeVault;
 
 var builder = WebApplication.CreateBuilder(args);
+//var connectionString = builder.Configuration.GetConnectionString("VaultContextConnection") ?? throw new InvalidOperationException("Connection string 'VaultContextConnection' not found.");;
+
+builder.Services.AddScoped<UserManager<User>>();
+builder.Services.AddScoped<SignInManager<User>>();
 
 // Add EF Core with SQLite
 builder.Services.AddDbContext<SafeVault.VaultContext>(options =>
     options.UseSqlite("Data Source=safevault.db"));
 
+// Add Identity
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<SafeVault.VaultContext>();
+
 builder.Services.AddRazorPages();
+
+
 
 var app = builder.Build();
 
@@ -22,6 +35,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

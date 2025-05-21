@@ -1,10 +1,9 @@
-﻿
-
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace SafeVault;
 
-public class VaultContext : DbContext
+public class VaultContext : IdentityDbContext<User>
 {
     public VaultContext(DbContextOptions<VaultContext> options) : base(options)
     {
