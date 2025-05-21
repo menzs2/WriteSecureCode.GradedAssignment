@@ -28,9 +28,9 @@ namespace SafeVault.Pages
                 return Page();
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Username == Username /* && u.Password == Password */);
+            var user = _context.Users.FirstOrDefault(u => u.Username == Username);
             // NOTE: For real apps, store password hashes and compare securely!
-            if (user == null /* || user.Password != Password */)
+            if (user == null  || user.Password != Password )
             {
                 ErrorMessage = "Invalid username or password.";
                 return Page();

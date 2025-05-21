@@ -12,6 +12,7 @@ namespace MyApp.Namespace
             // Get username and email from the form
             var username = Request.Form["username"];
             var email = Request.Form["email"];
+            var password = Request.Form["password"];
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email))
             {
                 ErrorMessage = "Username and email are required.";
@@ -33,10 +34,16 @@ namespace MyApp.Namespace
                 ErrorMessage = "Invalid email address.";
                 return;
             }
+            if (!Validator.IsValidPassword(password))
+            {
+                ErrorMessage = "Invalid password.";
+                return;
+            }
             var newUser = new User
             {
                 Username = username,
-                Email = email
+                Email = email,
+                Password = password // In a real app, hash the password before storing it
             };
             SaveUserToDatabase(newUser);
         }
