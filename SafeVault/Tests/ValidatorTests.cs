@@ -34,5 +34,15 @@ namespace SafeVault.Tests
         {
             Assert.Equal(expected, Validator.IsValidPassword(password));
         }
+
+        [Theory]
+        [InlineData("<script>alert('XSS')</script>", false)]
+        [InlineData("Hello, World!", true)]
+        [InlineData("", true)]
+        [InlineData("This is a test string without any script tags.", true)]
+        public void IsValidXXSInput_WorksAsExpected(string input, bool expected)
+        {
+            Assert.Equal(expected, Validator.IsValidXXSInput(input));
+        }
     }
 }

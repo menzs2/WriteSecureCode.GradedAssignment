@@ -23,4 +23,17 @@ public class Validator
         var passwordRegex = new Regex(@"^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$");
         return passwordRegex.IsMatch(password);
     }
+
+    public static bool IsValidXXSInput(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return true;
+        }
+        if (input.Contains("<script>") || input.Contains("</script>"))
+        {
+            return false;
+        }
+        return true;
+    }
 }

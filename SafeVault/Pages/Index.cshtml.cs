@@ -26,6 +26,12 @@ public class IndexModel : PageModel
             ErrorMessage = "Username and email are required.";
             return;
         }
+        if(!Validator.IsValidXXSInput(username) || !Validator.IsValidXXSInput(email))
+        {
+            ErrorMessage = "Possible XXS Input.";
+            return;
+        }
+
         if (!Validator.IsValidUsername(username))
         {
             ErrorMessage = "Invalid username.";
