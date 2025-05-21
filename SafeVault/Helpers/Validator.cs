@@ -4,6 +4,11 @@ namespace SafeVault;
 
 public class Validator
 {
+    public static bool IsUserValid(string username, string email, string password)
+    {
+        return IsValidUsername(username) && IsValidEmail(email) && IsValidPassword(password);
+    }
+
     public static bool IsValidUsername(string username)
     {
         // Username must be alphanumeric and between 3 and 20 characters

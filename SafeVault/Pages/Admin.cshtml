@@ -8,3 +8,22 @@
 <p>Welcome to the admin page!</p>
 <p>Here you can manage users and settings.</p>
 <p>you shouldn only see this if you have admin rights</p>
+
+<h2>Add new User"></a></h2>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="post" >
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email">
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+
+    <button type="submit">Submit</button>
+</form>

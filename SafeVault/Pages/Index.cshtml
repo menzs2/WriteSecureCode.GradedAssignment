@@ -4,17 +4,7 @@
     ViewData["Title"] = "Home page";
 }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Model.ErrorMessage</div>
-}
+<h1>Welcome to SafeVault</h1>
+<p>Your secure vault for storing sensitive information.</p>
 
-<form method="post" >
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username">
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email">
-    
-    <button type="submit">Submit</button>
-</form>
+<a href="/Login" class="btn btn-secondary">Login</a>
