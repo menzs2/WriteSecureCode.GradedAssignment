@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SafeVault;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyApp.Namespace
 {
@@ -39,11 +41,16 @@ namespace MyApp.Namespace
                 ErrorMessage = "Invalid password.";
                 return;
             }
+
+            // Hash the password before storing it
+            var passwordHasher = new PasswordHasher<User>();
+            var hashedPassword = passwordHasher.HashPassword(null, password);
+
             var newUser = new User
             {
                 Username = username,
                 Email = email,
-                Password = password // In a real app, hash the password before storing it
+                Password = hashedPassword // Store the hashed password
             };
             SaveUserToDatabase(newUser);
         }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 
 namespace SafeVault.Pages
 {
@@ -29,8 +30,17 @@ namespace SafeVault.Pages
             }
 
             var user = _context.Users.FirstOrDefault(u => u.Username == Username);
-            // NOTE: For real apps, store password hashes and compare securely!
-            if (user == null  || user.Password != Password )
+            if (user == null)
+            {
+                ErrorMessage = "Invalid username or password.";
+                return Page();
+            }
+
+            // Use PasswordHasher to verify the hashed password
+            var passwordHasher = new PasswordHasher<User>();
+            var result = passwordHasher.VerifyHashedPassword(user, user.Password, Password);
+
+            if (result != PasswordVerificationResult.Success)
             {
                 ErrorMessage = "Invalid username or password.";
                 return Page();
