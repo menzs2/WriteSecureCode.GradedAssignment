@@ -1,5 +1,4 @@
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +25,7 @@ public class IndexModel : PageModel
             ErrorMessage = "Username and email are required.";
             return;
         }
-        if(!Validator.IsValidXXSInput(username) || !Validator.IsValidXXSInput(email))
+        if(!Validator.IsValidXSSInput(username) || !Validator.IsValidXSSInput(email))
         {
             ErrorMessage = "Possible XXS Input.";
             return;

@@ -37,12 +37,13 @@ namespace SafeVault.Tests
 
         [Theory]
         [InlineData("<script>alert('XSS')</script>", false)]
+        [InlineData("<iframe", false)]
         [InlineData("Hello, World!", true)]
         [InlineData("", true)]
         [InlineData("This is a test string without any script tags.", true)]
-        public void IsValidXXSInput_WorksAsExpected(string input, bool expected)
+        public void IsValidXSSInput_WorksAsExpected(string input, bool expected)
         {
-            Assert.Equal(expected, Validator.IsValidXXSInput(input));
+            Assert.Equal(expected, Validator.IsValidXSSInput(input));
         }
     }
 }

@@ -24,13 +24,17 @@ public class Validator
         return passwordRegex.IsMatch(password);
     }
 
-    public static bool IsValidXXSInput(string input)
+    public static bool IsValidXSSInput(string input)
     {
         if (string.IsNullOrEmpty(input))
         {
             return true;
         }
         if (input.Contains("<script>") || input.Contains("</script>"))
+        {
+            return false;
+        }
+        if(input.Contains("<iframe") || input.Contains("</iframe>"))
         {
             return false;
         }
