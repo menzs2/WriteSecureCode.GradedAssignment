@@ -50,14 +50,13 @@ namespace MyApp.Namespace
             {
                 Username = username,
                 Email = email,
-                Password = hashedPassword // Store the hashed password
+                Password = hashedPassword // Store the hashed password,
             };
             SaveUserToDatabase(newUser);
         }
 
         private void SaveUserToDatabase(User user)
         {
-            // Save the user to the database
             var options = new DbContextOptionsBuilder<VaultContext>()
                 .UseSqlite("Data Source=safevault.db")
                 .Options;

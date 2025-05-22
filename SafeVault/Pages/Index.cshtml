@@ -1,4 +1,7 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -9,3 +12,44 @@
 
 <p>Use the navigation bar to access different features.</p>
 <p>To get started, please log in or register.</p>
+@if (SignInManager.IsSignedIn(User))
+{
+    <p>Hello @UserManager.GetUserName(User)!</p>
+    <p>Welcome back to your vault.</p>
+    <p>Here you can manage your sensitive information securely.</p>
+    
+
+    <h2>Add Vault Item</h2>
+    <form method="post" asp-page-handler="AddVaultItem" >
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="Title" required />
+        </div>
+        <div class="mb-3">
+            <label for="secret" class="form-label">Secret</label>
+            <input type="text" class="form-control" id="secret" name="Secret" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+
+    @if (Model.VaultItems != null && Model.VaultItems.Any())
+    {
+        <h2>Your Vault Items</h2>
+        <ul class="list-group">
+            @foreach (var item in Model.VaultItems)
+            {
+                <li class="list-group-item">
+                    <strong>@item.Title:</strong> @item.Secret
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>You have no vault items yet.</p>
+    }
+}
+else
+{
+    <p>Please log in or register to access your vault.</p>
+}
