@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
+EncryptionHelper.Initialize(builder.Configuration);
+
 
 // Add EF Core with SQLite
 builder.Services.AddDbContext<VaultContext>(options =>

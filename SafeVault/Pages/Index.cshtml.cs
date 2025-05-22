@@ -24,6 +24,10 @@ public class IndexModel : PageModel
         {
             context.Database.EnsureCreated();
             VaultItems = context.VaultItems.ToList();
+            foreach (var item in VaultItems)
+            {
+                item.Secret = EncryptionHelper.Decrypt(item.Secret);
+            }
         }
     }
     public IActionResult OnPostAddVaultItem(string Title, string Secret)
@@ -42,8 +46,7 @@ public class IndexModel : PageModel
         AddVaultItem(new VaultItem
         {
             Title = Title,
-            Secret = Secret
-
+            Secret = EncryptionHelper.Encrypt(Secret)
         });
         return RedirectToPage();
     }
