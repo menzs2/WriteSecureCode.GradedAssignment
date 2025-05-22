@@ -9,11 +9,24 @@ public class EncryptionHelper
     // Initialize the encryption helper with the key and IV from the configuration
     public static void Initialize(IConfiguration configuration)
     {
+
+        var key = configuration["Encryption:Key"].Trim();
+        var iv = configuration["Encryption:IV"].Trim();
+
+        if (configuration == null)
+        {
+            throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null.");
+        }
+        // Check if the configuration contains the required keys
+        if (string.IsNullOrEmpty(configuration["Encryption:Key"]) || string.IsNullOrEmpty(configuration["Encryption:IV"]))
+        {
+            throw new ArgumentException("Encryption key or IV not found in configuration.");
+        }
+        // Check if the configuration is null
         // Load the key and IV from the configuration file
         Key = Convert.FromBase64String(configuration["Encryption:Key"]);
         IV = Convert.FromBase64String(configuration["Encryption:IV"]);
     }
-
 
     public static string Encrypt(string plainText)
     {
