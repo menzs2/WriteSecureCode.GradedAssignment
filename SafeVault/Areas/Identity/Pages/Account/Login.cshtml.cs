@@ -15,6 +15,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SafeVault;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SafeVault.Areas.Identity.Pages.Account
 {
@@ -102,6 +106,8 @@ namespace SafeVault.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        public string JwtToken { get; set; } // Add this property to expose the token to the page if needed
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -110,12 +116,36 @@ namespace SafeVault.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    // Issue JWT token
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    var claims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.UserName)
+                    };
+
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperSecretKeyHere!123")); // Use a secure key from config
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var token = new JwtSecurityToken(
+                        issuer: "SafeVault",
+                        audience: "SafeVault",
+                        claims: claims,
+                        expires: DateTime.Now.AddHours(1),
+                        signingCredentials: creds);
+
+                    JwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    // You can return the token in a cookie, header, or as part of the response as needed
+                    // Example: TempData["JwtToken"] = JwtToken;
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
