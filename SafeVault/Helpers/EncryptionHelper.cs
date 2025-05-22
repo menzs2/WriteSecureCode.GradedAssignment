@@ -1,4 +1,7 @@
-﻿namespace SafeVault;
+﻿using System.Security.Cryptography;
+using System.Text;
+
+namespace SafeVault;
 
 public class EncryptionHelper
 {
@@ -10,9 +13,9 @@ public class EncryptionHelper
     public static void Initialize(IConfiguration configuration)
     {
 
-        var key = configuration["Encryption:Key"].Trim();
-        var iv = configuration["Encryption:IV"].Trim();
-
+        // For your appsettings.json or secrets
+        var key = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)); // 32 bytes for AES-256
+        var iv = Convert.ToBase64String(RandomNumberGenerator.GetBytes(16));  // 16 bytes for AES IV
         if (configuration == null)
         {
             throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null.");
@@ -24,8 +27,8 @@ public class EncryptionHelper
         }
         // Check if the configuration is null
         // Load the key and IV from the configuration file
-        Key = Convert.FromBase64String(configuration["Encryption:Key"]);
-        IV = Convert.FromBase64String(configuration["Encryption:IV"]);
+        Key = Convert.FromBase64String(key);
+        IV = Convert.FromBase64String(iv);
     }
 
     public static string Encrypt(string plainText)
@@ -40,10 +43,12 @@ public class EncryptionHelper
             var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
             using (var ms = new MemoryStream())
-            using (var cs = new System.Security.Cryptography.CryptoStream(ms, encryptor, System.Security.Cryptography.CryptoStreamMode.Write))
+            using (var cs = new CryptoStream(ms, encryptor, System.Security.Cryptography.CryptoStreamMode.Write))
             using (var sw = new StreamWriter(cs))
             {
                 sw.Write(plainText);
+                sw.Flush();
+                cs.FlushFinalBlock();
                 return Convert.ToBase64String(ms.ToArray());
             }
         }
