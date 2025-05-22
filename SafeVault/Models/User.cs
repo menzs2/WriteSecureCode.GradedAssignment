@@ -7,7 +7,7 @@ public class User : IdentityUser
 {
     
     [Key]
-    public int Id { get; set; } // Auto-incrementing primary key
+    public new int Id { get; set; } // Auto-incrementing primary key
 
     [Required]
     public required string Username { get; set; }

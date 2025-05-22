@@ -9,5 +9,5 @@ public class VaultItem
     public string? Title { get; set; }
     public string? Secret { get; set; }
     public User? Owner { get; set; }
-    public string? OwnerId { get; set; }
+    public int? OwnerId { get; set; }
 }
