@@ -10,12 +10,12 @@ builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 
 // Add EF Core with SQLite
-builder.Services.AddDbContext<SafeVault.VaultContext>(options =>
+builder.Services.AddDbContext<VaultContext>(options =>
     options.UseSqlite("Data Source=safevault.db"));
 
 // Add Identity
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<SafeVault.VaultContext>();
+    .AddEntityFrameworkStores<VaultContext>();
 
 builder.Services.AddRazorPages();
 
