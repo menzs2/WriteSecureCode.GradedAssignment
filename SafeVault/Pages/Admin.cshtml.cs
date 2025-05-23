@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SafeVault;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyApp.Namespace
 {
+    [Authorize(Roles = "Admin")]
     public class AdminModel : PageModel
     {
         private readonly UserManager<User> _userManager;
