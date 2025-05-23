@@ -19,6 +19,10 @@ builder.Services.AddDbContext<VaultContext>(options =>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<VaultContext>();
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<VaultContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddAuthentication(options =>
