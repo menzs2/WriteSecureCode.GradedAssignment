@@ -50,6 +50,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Redirect HTTP requests to HTTPS
 app.UseHttpsRedirection();
 
 app.UseRouting();
