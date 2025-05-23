@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Xunit;
 
 public class EncryptionHelperTests
@@ -27,8 +26,6 @@ public class EncryptionHelperTests
         // Act
         var encrypted = SafeVault.EncryptionHelper.Encrypt(original);
         var decrypted = SafeVault.EncryptionHelper.Decrypt(encrypted);
-        Console.WriteLine($"Original: {original}");
-        Console.WriteLine($"Encrypted: {encrypted}");
         // Assert
         Assert.Equal(original, decrypted);
     }

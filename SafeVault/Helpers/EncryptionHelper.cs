@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 
 namespace SafeVault;
 
@@ -14,8 +13,8 @@ public class EncryptionHelper
     {
 
         // For your appsettings.json or secrets
-        var key = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)); // 32 bytes for AES-256
-        var iv = Convert.ToBase64String(RandomNumberGenerator.GetBytes(16));  // 16 bytes for AES IV
+        var key = configuration["Encryption:Key"]; // 32 bytes for AES-256
+        var iv = configuration["Encryption:IV"];  // 16 bytes for AES IV
         if (configuration == null)
         {
             throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null.");
@@ -36,14 +35,14 @@ public class EncryptionHelper
         if (string.IsNullOrEmpty(plainText))
             return plainText;
 
-        using (var aes = System.Security.Cryptography.Aes.Create())
+        using (var aes = Aes.Create())
         {
             aes.Key = Key;
             aes.IV = IV;
             var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
             using (var ms = new MemoryStream())
-            using (var cs = new CryptoStream(ms, encryptor, System.Security.Cryptography.CryptoStreamMode.Write))
+            using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
             using (var sw = new StreamWriter(cs))
             {
                 sw.Write(plainText);
@@ -59,7 +58,7 @@ public class EncryptionHelper
         if (string.IsNullOrEmpty(cipherText))
             return cipherText;
 
-        using (var aes = System.Security.Cryptography.Aes.Create())
+        using (var aes = Aes.Create())
         {
             aes.Key = Key;
             aes.IV = IV;
@@ -67,7 +66,7 @@ public class EncryptionHelper
 
             var buffer = Convert.FromBase64String(cipherText);
             using (var ms = new MemoryStream(buffer))
-            using (var cs = new System.Security.Cryptography.CryptoStream(ms, decryptor, System.Security.Cryptography.CryptoStreamMode.Read))
+            using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
             using (var sr = new StreamReader(cs))
             {
                 return sr.ReadToEnd();
