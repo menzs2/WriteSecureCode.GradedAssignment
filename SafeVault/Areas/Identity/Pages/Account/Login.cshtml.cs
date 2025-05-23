@@ -146,6 +146,17 @@ namespace SafeVault.Areas.Identity.Pages.Account
                     // You can return the token in a cookie, header, or as part of the response as needed
                     // Example: TempData["JwtToken"] = JwtToken;
 
+                    Response.Cookies.Append(
+                        "JwtToken",
+                        JwtToken,
+                        new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddHours(1)
+                        });
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
