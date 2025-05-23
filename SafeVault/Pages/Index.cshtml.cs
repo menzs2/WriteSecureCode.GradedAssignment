@@ -33,7 +33,7 @@ public class IndexModel : PageModel
                 return;
             }
             context.Database.EnsureCreated();
-            VaultItems = context.VaultItems.Where(r=> r.OwnerId == user.Id).ToList();
+            VaultItems = context.VaultItems.Where(r=> r.UserId == user.Id).ToList();
             foreach (var item in VaultItems)
             {
                 item.Secret = EncryptionHelper.Decrypt(item.Secret);
@@ -63,7 +63,7 @@ public class IndexModel : PageModel
         {
             Title = Title,
             Secret = EncryptionHelper.Encrypt(Secret),
-            OwnerId = user.Id
+            UserId = user.Id
         });
         return RedirectToPage();
     }

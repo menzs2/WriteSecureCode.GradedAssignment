@@ -56,10 +56,9 @@ namespace MyApp.Namespace
 
             var user = new User
             {
-                UserName = email,
+                UserName = username,
                 Email = email,
-                Username = username,
-                Password = password // Note: Password will be hashed by UserManager.CreateAsync
+                PasswordHash = password // Note: Password will be hashed by UserManager.CreateAsync
             };
             var result = await _userManager.CreateAsync(user, password);
 
